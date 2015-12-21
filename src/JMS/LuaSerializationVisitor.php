@@ -21,6 +21,6 @@ class LuaSerializationVisitor extends GenericSerializationVisitor {
      * @return object|array
      */
     public function getResult() {
-        return Lua::encode($this->getRoot());
+        return Lua::serialize($this->getRoot());
     }
 }

@@ -9,6 +9,7 @@
 namespace Vlaswinkel\Lua\JMS;
 
 use JMS\Serializer\GenericDeserializationVisitor;
+use Vlaswinkel\Lua\Lua;
 use Vlaswinkel\Lua\LuaInputStream;
 use Vlaswinkel\Lua\LuaParser;
 use Vlaswinkel\Lua\LuaTokenStream;
@@ -21,7 +22,6 @@ use Vlaswinkel\Lua\LuaToPhpConverter;
  */
 class LuaDeserializationVisitor extends GenericDeserializationVisitor {
     protected function decode($str) {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream($str)));
-        return LuaToPhpConverter::convertToPhpValue($parser->parse());
+        return Lua::deserialize($str);
     }
 }

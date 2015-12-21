@@ -38,12 +38,12 @@ class Lua {
         'while',
     ];
 
-    public static function encode($data) {
+    public static function serialize($data) {
         return LuaSerializer::encode($data);
     }
 
-    public static function decode($data) {
+    public static function deserialize($data) {
         $parser = new LuaParser(new LuaTokenStream(new LuaInputStream($data)));
-        return $parser->parse();
+        return LuaToPhpConverter::convertToPhpValue($parser->parse());
     }
 }
