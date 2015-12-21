@@ -100,7 +100,6 @@ class LuaTokenStream {
             return $this->readPunctuation();
         }
         $this->input->error('Cannot handle character: ' . $char . ' (ord: ' . ord($char) . ')');
-        return null; // won't be reached, just for IDE
     }
 
     protected function skipComment() {

@@ -38,7 +38,9 @@ class LuaParser {
     }
 
     /**
-     * @return ASTNode|null
+     * @return ASTNode
+     *
+     * @throws LuaParseException
      */
     public function parse() {
         if ($this->isPunctuation('{')) {
@@ -62,7 +64,6 @@ class LuaParser {
             }
         }
         $this->unexpected();
-        return null; // not needed, just for IDE
     }
 
     /**
@@ -142,7 +143,7 @@ class LuaParser {
      */
     protected function isPunctuation($char = null) {
         $token = $this->input->peek();
-        return $token && $token->getType() == LuaToken::TYPE_PUNCTUATION && ($char == null || $token->getValue(
+        return $token && $token->getType() == LuaToken::TYPE_PUNCTUATION && ($char === null || $token->getValue(
             ) == $char);
     }
 

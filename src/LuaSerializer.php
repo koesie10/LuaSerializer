@@ -89,8 +89,8 @@ class LuaSerializer {
             $char = $data[$i];
             switch ($char) {
                 case '"':
-                case "\\";
-                case "\n";
+                case "\\":
+                case "\n":
                     $result .= "\\" . $char;
                     break;
                 default:

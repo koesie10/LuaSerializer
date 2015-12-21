@@ -16,7 +16,10 @@
     "require-dev": {
         "php": ">=5.5",
         "jms/serializer": "~1.1",
-        "phpunit/phpunit": "~4.4"
+        "phpunit/phpunit": "~4.4",
+        "symfony/form": "~2.8",
+        "symfony/validator": "~2.8",
+        "doctrine/common": "~2.6"
     },
     "suggest": {
         "jms/serializer": "Used to serialize/deserialize in e.g. Symfony2."

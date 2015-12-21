@@ -64,7 +64,7 @@ class LuaFormHandler implements SubscribingHandlerInterface {
         foreach ($data->getErrors() as $error) {
             $errors[] = $this->getErrorMessage($error);
         }
-        if ($errors) {
+        if (!empty($errors)) {
             $form['errors'] = $errors;
         }
         $children = [];
@@ -73,7 +73,7 @@ class LuaFormHandler implements SubscribingHandlerInterface {
                 $children[$child->getName()] = $this->convertFormToArray($visitor, $child);
             }
         }
-        if ($children) {
+        if (!empty($children)) {
             $form['children'] = $children;
         }
         if ($isRoot) {
