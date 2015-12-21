@@ -1,0 +1,34 @@
+{
+    "name": "koesie10/lua-serializer",
+    "keywords": ["lua", "serializer", "serialization", "deserialization", "parser"],
+    "description": "A Lua serializer/deserializer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Koen Vlaswinkel",
+            "email": "koen@vlaswinkel.info"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "php": ">=5.5",
+        "jms/serializer": "~1.1",
+        "phpunit/phpunit": "~4.4"
+    },
+    "suggest": {
+        "jms/serializer": "Used to serialize/deserialize in e.g. Symfony2."
+    },
+    "autoload": {
+        "psr-4": {
+            "Vlaswinkel\\Lua\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vlaswinkel\\Lua\\Tests\\": "tests"
+        }
+    }
+}
