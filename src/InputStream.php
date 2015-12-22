@@ -1,21 +1,16 @@
 <?php
-/**
- * LuaInputStream.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 18:48
- */
 
 namespace Vlaswinkel\Lua;
 
 /**
- * Class LuaInputStream
+ * Class InputStream
  *
  * @see     http://lisperator.net/pltut/parser/input-stream
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
-class LuaInputStream {
+class InputStream {
     /**
      * @var string
      */
@@ -35,7 +30,7 @@ class LuaInputStream {
     private $column = 0;
 
     /**
-     * LuaInputStream constructor.
+     * InputStream constructor.
      *
      * @param string $input
      */
@@ -63,6 +58,6 @@ class LuaInputStream {
     }
 
     public function error($msg) {
-        throw new LuaParseException($msg . ' (' . $this->line . ':' . $this->column . ')');
+        throw new ParseException($msg . ' (' . $this->line . ':' . $this->column . ')');
     }
 }

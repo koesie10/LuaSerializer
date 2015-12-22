@@ -1,38 +1,33 @@
 <?php
-/**
- * LuaTokenStream.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 18:45
- */
 
 namespace Vlaswinkel\Lua;
 
 /**
- * Class LuaTokenStream
+ * Class TokenStream
  *
  * @see     http://lisperator.net/pltut/parser/token-stream
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
-class LuaTokenStream {
+class TokenStream {
     private $current = null;
     /**
-     * @var LuaInputStream
+     * @var InputStream
      */
     private $input;
 
     /**
-     * LuaTokenStream constructor.
+     * TokenStream constructor.
      *
-     * @param LuaInputStream $input
+     * @param InputStream $input
      */
-    public function __construct(LuaInputStream $input) {
+    public function __construct(InputStream $input) {
         $this->input = $input;
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     public function next() {
         $token         = $this->current;
@@ -51,7 +46,7 @@ class LuaTokenStream {
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     public function peek() {
         if ($this->current) {
@@ -64,15 +59,15 @@ class LuaTokenStream {
     /**
      * @param string $msg
      *
-     * @throws LuaParseException
+     * @throws ParseException
      */
     public function error($msg) {
         $this->input->error($msg);
     }
 
     /**
-     * @return LuaToken
-     * @throws LuaParseException
+     * @return Token
+     * @throws ParseException
      */
     protected function readNext() {
         $this->readWhile([$this, 'isWhitespace']);
@@ -112,17 +107,17 @@ class LuaTokenStream {
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     protected function readDoubleQuotedString() {
-        return new LuaToken(LuaToken::TYPE_STRING, $this->readEscaped('"'));
+        return new Token(Token::TYPE_STRING, $this->readEscaped('"'));
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     protected function readSingleQuotedString() {
-        return new LuaToken(LuaToken::TYPE_STRING, $this->readEscaped('\''));
+        return new Token(Token::TYPE_STRING, $this->readEscaped('\''));
     }
 
     /**
@@ -155,7 +150,7 @@ class LuaTokenStream {
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     protected function readNumber() {
         $hasDot = false;
@@ -171,11 +166,11 @@ class LuaTokenStream {
                 return $this->isDigit($char);
             }
         );
-        return new LuaToken(LuaToken::TYPE_NUMBER, $hasDot ? floatval($number) : intval($number));
+        return new Token(Token::TYPE_NUMBER, $hasDot ? floatval($number) : intval($number));
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     protected function readIdentifier() {
         $first      = false;
@@ -189,16 +184,16 @@ class LuaTokenStream {
             }
         );
         if ($this->isKeyword($identifier)) {
-            return new LuaToken(LuaToken::TYPE_KEYWORD, $identifier);
+            return new Token(Token::TYPE_KEYWORD, $identifier);
         }
-        return new LuaToken(LuaToken::TYPE_IDENTIFIER, $identifier);
+        return new Token(Token::TYPE_IDENTIFIER, $identifier);
     }
 
     /**
-     * @return LuaToken
+     * @return Token
      */
     protected function readPunctuation() {
-        return new LuaToken(LuaToken::TYPE_PUNCTUATION, $this->input->next());
+        return new Token(Token::TYPE_PUNCTUATION, $this->input->next());
     }
 
     /**

@@ -1,16 +1,11 @@
 <?php
-/**
- * LiteralASTNode.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 10:30
- */
 
 namespace Vlaswinkel\Lua\AST;
 
 /**
  * Class LiteralASTNode
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua\AST
  */
 abstract class LiteralASTNode extends ASTNode {

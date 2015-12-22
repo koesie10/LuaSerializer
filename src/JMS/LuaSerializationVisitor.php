@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaSerializationVisitor.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 20:04
- */
 
 namespace Vlaswinkel\Lua\JMS;
 
@@ -14,6 +8,10 @@ use Vlaswinkel\Lua\Lua;
 /**
  * Class LuaSerializationVisitor
  *
+ * @see     https://github.com/schmittjoh/serializer/blob/1.1.0/src/JMS/Serializer/JsonSerializationVisitor.php
+ *
+ * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua\JMS
  */
 class LuaSerializationVisitor extends GenericSerializationVisitor {

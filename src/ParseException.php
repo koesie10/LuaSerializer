@@ -1,21 +1,16 @@
 <?php
-/**
- * LuaParseException.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 18:51
- */
 
 namespace Vlaswinkel\Lua;
 
 use Exception;
 
 /**
- * Class LuaParseException
+ * Class ParseException
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
-class LuaParseException extends \Exception {
+class ParseException extends \RuntimeException {
     /**
      * Construct the exception. Note: The message is NOT binary safe.
      *

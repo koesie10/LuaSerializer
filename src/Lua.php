@@ -1,16 +1,11 @@
 <?php
-/**
- * Lua.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 14:47
- */
 
 namespace Vlaswinkel\Lua;
 
 /**
  * Class Lua
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
 class Lua {
@@ -39,11 +34,11 @@ class Lua {
     ];
 
     public static function serialize($data) {
-        return LuaSerializer::encode($data);
+        return Serializer::encode($data);
     }
 
     public static function deserialize($data) {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream($data)));
+        $parser = new Parser(new TokenStream(new InputStream($data)));
         return LuaToPhpConverter::convertToPhpValue($parser->parse());
     }
 }

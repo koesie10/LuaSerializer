@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaFormErrorHandler.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 11:27
- */
 
 namespace Vlaswinkel\Lua\JMS;
 
@@ -15,6 +9,15 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Class LuaFormHandler
+ *
+ * @see     https://github.com/schmittjoh/serializer/blob/1.1.0/src/JMS/Serializer/Handler/FormErrorHandler.php
+ *
+ * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
+ * @package Vlaswinkel\Lua\JMS
+ */
 class LuaFormHandler implements SubscribingHandlerInterface {
     private $translator;
 

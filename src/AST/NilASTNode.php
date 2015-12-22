@@ -1,16 +1,11 @@
 <?php
-/**
- * NilASTNode.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 10:49
- */
 
 namespace Vlaswinkel\Lua\AST;
 
 /**
  * Class NilASTNode
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua\AST
  */
 class NilASTNode extends ASTNode {

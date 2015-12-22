@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaPhpCollectionHandler.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 11:29
- */
 
 namespace Vlaswinkel\Lua\JMS;
 
@@ -15,6 +9,15 @@ use JMS\Serializer\VisitorInterface;
 use PhpCollection\Map;
 use PhpCollection\Sequence;
 
+/**
+ * Class LuaPhpCollectionHandler
+ *
+ * @see     https://github.com/schmittjoh/serializer/blob/1.1.0/src/JMS/Serializer/Handler/PhpCollectionHandler.php
+ *
+ * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
+ * @package Vlaswinkel\Lua\JMS
+ */
 class LuaPhpCollectionHandler implements SubscribingHandlerInterface {
     public static function getSubscribingMethods() {
         $methods         = [];

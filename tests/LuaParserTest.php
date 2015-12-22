@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaParserTest.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 17:30
- */
 
 namespace Vlaswinkel\Lua\Tests;
 
@@ -12,13 +6,19 @@ use Vlaswinkel\Lua\AST\NilASTNode;
 use Vlaswinkel\Lua\AST\NumberASTNode;
 use Vlaswinkel\Lua\AST\StringASTNode;
 use Vlaswinkel\Lua\AST\TableASTNode;
-use Vlaswinkel\Lua\LuaInputStream;
-use Vlaswinkel\Lua\LuaParser;
-use Vlaswinkel\Lua\LuaTokenStream;
+use Vlaswinkel\Lua\InputStream;
+use Vlaswinkel\Lua\Parser;
+use Vlaswinkel\Lua\TokenStream;
 
+/**
+ * Class LuaParserTest
+ *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
+ * @package Vlaswinkel\Lua\Tests
+ */
 class LuaParserTest extends \PHPUnit_Framework_TestCase {
     public function testString() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('"foo"')));
+        $parser = new Parser(new TokenStream(new InputStream('"foo"')));
 
         $node = $parser->parse();
 
@@ -28,7 +28,7 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNumber() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('1337')));
+        $parser = new Parser(new TokenStream(new InputStream('1337')));
 
         $node = $parser->parse();
 
@@ -38,7 +38,7 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNil() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('nil')));
+        $parser = new Parser(new TokenStream(new InputStream('nil')));
 
         $node = $parser->parse();
 
@@ -47,7 +47,7 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testTableKey() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('["test"]')));
+        $parser = new Parser(new TokenStream(new InputStream('["test"]')));
 
         $node = $parser->parse();
 
@@ -57,9 +57,9 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSimpleTable() {
-        $parser = new LuaParser(
-            new LuaTokenStream(
-                new LuaInputStream(
+        $parser = new Parser(
+            new TokenStream(
+                new InputStream(
                     '{
             foo = "bar"
         }'
@@ -86,9 +86,9 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNestedTable() {
-        $parser = new LuaParser(
-            new LuaTokenStream(
-                new LuaInputStream(
+        $parser = new Parser(
+            new TokenStream(
+                new InputStream(
                     '{
             foo = {
                 ["test"] = {
@@ -147,10 +147,10 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Vlaswinkel\Lua\LuaParseException
+     * @expectedException \Vlaswinkel\Lua\ParseException
      */
     public function testInvalid() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('{ test[bar }')));
+        $parser = new Parser(new TokenStream(new InputStream('{ test[bar }')));
 
         $parser->parse();
     }

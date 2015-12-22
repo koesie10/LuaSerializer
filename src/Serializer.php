@@ -1,21 +1,16 @@
 <?php
-/**
- * LuaSerializer.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 10:29
- */
 
 namespace Vlaswinkel\Lua;
 
 /**
- * Class LuaSerializer
+ * Class Serializer
  *
  * @see     https://github.com/Sorroko/cclite/blob/62677542ed63bd4db212f83da1357cb953e82ce3/src/lua/rom/apis/textutils
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
-class LuaSerializer {
+class Serializer {
     public static function encode($data, $indent = '') {
         if (is_null($data)) {
             return self::encodeNull();

@@ -1,16 +1,11 @@
 <?php
-/**
- * StringASTNode.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 10:32
- */
 
 namespace Vlaswinkel\Lua\AST;
 
 /**
  * Class StringASTNode
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua\AST
  */
 class StringASTNode extends LiteralASTNode {

@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaArrayCollectionHandler.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 21:17
- */
 
 namespace Vlaswinkel\Lua\JMS;
 
@@ -18,6 +12,10 @@ use JMS\Serializer\VisitorInterface;
 /**
  * Class LuaArrayCollectionHandler
  *
+ * @see     https://github.com/schmittjoh/serializer/blob/1.1.0/src/JMS/Serializer/Handler/ArrayCollectionHandler.php
+ *
+ * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\JMS\Lua
  */
 class LuaArrayCollectionHandler implements SubscribingHandlerInterface {

@@ -1,6 +1,12 @@
 {
     "name": "koesie10/lua-serializer",
-    "keywords": ["lua", "serializer", "serialization", "deserialization", "parser"],
+    "keywords": [
+        "lua",
+        "serializer",
+        "serialization",
+        "deserialization",
+        "parser"
+    ],
     "description": "A Lua serializer/deserializer",
     "type": "library",
     "license": "MIT",

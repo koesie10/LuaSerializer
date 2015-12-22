@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaConstraintViolationHandler.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 11:24
- */
 
 namespace Vlaswinkel\Lua\JMS;
 
@@ -17,6 +11,10 @@ use Symfony\Component\Validator\ConstraintViolationList;
 /**
  * Class LuaConstraintViolationHandler
  *
+ * @see     https://github.com/schmittjoh/serializer/blob/1.1.0/src/JMS/Serializer/Handler/ConstraintViolationHandler.php
+ *
+ * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua\JMS
  */
 class LuaConstraintViolationHandler implements SubscribingHandlerInterface {

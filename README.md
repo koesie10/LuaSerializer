@@ -37,10 +37,10 @@ $result = \Vlaswinkel\Lua\Lua::deserialize('{ foo = "bar" }')
 You can also use all the classes yourself:
 
 ```php
-$result = \Vlaswinkel\Lua\LuaSerializer::encode([ 'foo' => 'bar' ]); // returns the same as above
+$result = \Vlaswinkel\Lua\Serializer::encode([ 'foo' => 'bar' ]); // returns the same as above
 
-$parser = new LuaParser(new LuaTokenStream(new LuaInputStream('{ foo = "bar" }')));
-$result = LuaToPhpConverter::convertToPhpValue($parser->parse()); // returns the same as above
+$parser = new \Vlaswinkel\Lua\Parser(new \Vlaswinkel\Lua\TokenStream(new \Vlaswinkel\Lua\InputStream('{ foo = "bar" }')));
+$result = \Vlaswinkel\Lua\LuaToPhpConverter::convertToPhpValue($parser->parse()); // returns the same as above
 ```
 
 ### Integration with JMS Serializer in Symfony2

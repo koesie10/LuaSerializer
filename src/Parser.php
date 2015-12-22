@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaParser.php
- *
- * @since  20/12/2015 18:45
- * @author Koen Vlaswinkel
- */
 
 namespace Vlaswinkel\Lua;
 
@@ -16,31 +10,32 @@ use Vlaswinkel\Lua\AST\TableASTNode;
 use Vlaswinkel\Lua\AST\TableEntryASTNode;
 
 /**
- * Class LuaParser
+ * Class Parser
  *
- * @param   http://lisperator.net/pltut/parser/the-parser
+ * @see     http://lisperator.net/pltut/parser/the-parser
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
-class LuaParser {
+class Parser {
     /**
-     * @var LuaTokenStream
+     * @var TokenStream
      */
     private $input;
 
     /**
-     * LuaParser constructor.
+     * Parser constructor.
      *
-     * @param LuaTokenStream $input
+     * @param TokenStream $input
      */
-    public function __construct(LuaTokenStream $input) {
+    public function __construct(TokenStream $input) {
         $this->input = $input;
     }
 
     /**
      * @return ASTNode
      *
-     * @throws LuaParseException
+     * @throws ParseException
      */
     public function parse() {
         if ($this->isPunctuation('{')) {
@@ -50,13 +45,13 @@ class LuaParser {
             return $this->parseTableKey();
         }
         $token = $this->input->next();
-        if ($token->getType() == LuaToken::TYPE_NUMBER) {
+        if ($token->getType() == Token::TYPE_NUMBER) {
             return new NumberASTNode($token->getValue());
         }
-        if ($token->getType() == LuaToken::TYPE_STRING || $token->getType() == LuaToken::TYPE_IDENTIFIER) {
+        if ($token->getType() == Token::TYPE_STRING || $token->getType() == Token::TYPE_IDENTIFIER) {
             return new StringASTNode($token->getValue());
         }
-        if ($token->getType() == LuaToken::TYPE_KEYWORD) {
+        if ($token->getType() == Token::TYPE_KEYWORD) {
             if ($token->getValue() === 'nil') {
                 return new NilASTNode();
             } else {
@@ -143,14 +138,14 @@ class LuaParser {
      */
     protected function isPunctuation($char = null) {
         $token = $this->input->peek();
-        return $token && $token->getType() == LuaToken::TYPE_PUNCTUATION && ($char === null || $token->getValue(
+        return $token && $token->getType() == Token::TYPE_PUNCTUATION && ($char === null || $token->getValue(
             ) == $char);
     }
 
     /**
      * @param string|null $char
      *
-     * @throws LuaParseException
+     * @throws ParseException
      */
     protected function skipPunctuation($char = null) {
         if ($this->isPunctuation($char)) {
@@ -161,7 +156,7 @@ class LuaParser {
     }
 
     /**
-     * @throws LuaParseException
+     * @throws ParseException
      */
     protected function unexpected() {
         $this->input->error('Unexpected token: ' . json_encode($this->input->peek()));

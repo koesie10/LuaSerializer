@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaDateHandler.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 11:18
- */
 
 namespace Vlaswinkel\Lua\JMS;
 
@@ -17,6 +11,10 @@ use JMS\Serializer\VisitorInterface;
 /**
  * Class LuaDateHandler
  *
+ * @see     https://github.com/schmittjoh/serializer/blob/1.1.0/src/JMS/Serializer/Handler/DateHandler.php
+ *
+ * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua\JMS
  */
 class LuaDateHandler implements SubscribingHandlerInterface {

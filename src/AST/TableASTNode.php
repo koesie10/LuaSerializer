@@ -1,13 +1,13 @@
 <?php
-/**
- * TableASTNode.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 10:34
- */
 
 namespace Vlaswinkel\Lua\AST;
 
+/**
+ * Class TableASTNode
+ *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
+ * @package Vlaswinkel\Lua\AST
+ */
 class TableASTNode extends ASTNode {
     const NAME = 'table';
 

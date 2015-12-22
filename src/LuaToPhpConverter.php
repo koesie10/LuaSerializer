@@ -1,10 +1,4 @@
 <?php
-/**
- * LuaToPhpConverter.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 20:05
- */
 
 namespace Vlaswinkel\Lua;
 
@@ -17,6 +11,7 @@ use Vlaswinkel\Lua\AST\TableEntryASTNode;
 /**
  * Class LuaToPhpConverter
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
 class LuaToPhpConverter {
@@ -24,7 +19,7 @@ class LuaToPhpConverter {
      * @param ASTNode $input
      *
      * @return array
-     * @throws LuaParseException
+     * @throws ParseException
      */
     public static function convertToPhpValue($input) {
         return self::parseValue($input);
@@ -34,14 +29,14 @@ class LuaToPhpConverter {
      * @param ASTNode $input
      *
      * @return mixed
-     * @throws LuaParseException
+     * @throws ParseException
      */
     private static function parseValue($input) {
         if ($input instanceof TableASTNode) {
             return self::parseTable($input);
         }
         if (!($input instanceof ASTNode)) {
-            throw new LuaParseException("Unexpected AST node: " . get_class($input));
+            throw new ParseException("Unexpected AST node: " . get_class($input));
         }
         if ($input instanceof LiteralASTNode) {
             return $input->getValue();
@@ -49,23 +44,23 @@ class LuaToPhpConverter {
         if ($input instanceof NilASTNode) {
             return null;
         }
-        throw new LuaParseException("Unexpected AST node: " . $input->getName());
+        throw new ParseException("Unexpected AST node: " . $input->getName());
     }
 
     /**
      * @param $input
      *
      * @return array
-     * @throws LuaParseException
+     * @throws ParseException
      */
     private static function parseTable($input) {
         $data = [];
         if (!($input instanceof TableASTNode)) {
-            throw new LuaParseException("Unexpected AST node: " . get_class($input));
+            throw new ParseException("Unexpected AST node: " . get_class($input));
         }
         foreach ($input->getEntries() as $token) {
             if (!($token instanceof TableEntryASTNode)) {
-                throw new LuaParseException("Unexpected token: " . $token->getName());
+                throw new ParseException("Unexpected token: " . $token->getName());
             }
             $value = self::parseValue($token->getValue());
             if ($token->hasKey()) {

@@ -1,21 +1,21 @@
 <?php
-/**
- * LuaToPhpConverterTest.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  21/12/2015 17:50
- */
 
 namespace Vlaswinkel\Lua\Tests;
 
-use Vlaswinkel\Lua\LuaInputStream;
-use Vlaswinkel\Lua\LuaParser;
-use Vlaswinkel\Lua\LuaTokenStream;
+use Vlaswinkel\Lua\InputStream;
 use Vlaswinkel\Lua\LuaToPhpConverter;
+use Vlaswinkel\Lua\Parser;
+use Vlaswinkel\Lua\TokenStream;
 
+/**
+ * Class LuaToPhpConverterTest
+ *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
+ * @package Vlaswinkel\Lua\Tests
+ */
 class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
     public function testString() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('"foo"')));
+        $parser = new Parser(new TokenStream(new InputStream('"foo"')));
 
         $node = $parser->parse();
 
@@ -23,7 +23,7 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNumber() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('1337')));
+        $parser = new Parser(new TokenStream(new InputStream('1337')));
 
         $node = $parser->parse();
 
@@ -31,7 +31,7 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNil() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('nil')));
+        $parser = new Parser(new TokenStream(new InputStream('nil')));
 
         $node = $parser->parse();
 
@@ -39,7 +39,7 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSimpleTable() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('{ foo = "bar" }')));
+        $parser = new Parser(new TokenStream(new InputStream('{ foo = "bar" }')));
 
         $node = $parser->parse();
 
@@ -54,7 +54,7 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNestedTable() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('{ foo = { "bar" = { 1337 } } }')));
+        $parser = new Parser(new TokenStream(new InputStream('{ foo = { "bar" = { 1337 } } }')));
 
         $node = $parser->parse();
 
@@ -73,7 +73,7 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testEmptyTable() {
-        $parser = new LuaParser(new LuaTokenStream(new LuaInputStream('{}')));
+        $parser = new Parser(new TokenStream(new InputStream('{}')));
 
         $node = $parser->parse();
 

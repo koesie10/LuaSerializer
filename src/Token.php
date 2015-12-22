@@ -1,19 +1,14 @@
 <?php
-/**
- * LuaToken.php
- *
- * @author Koen Vlaswinkel <koen@vlaswinkel.info>
- * @since  20/12/2015 18:46
- */
 
 namespace Vlaswinkel\Lua;
 
 /**
- * Class LuaToken
+ * Class Token
  *
+ * @author  Koen Vlaswinkel <koen@vlaswinkel.info>
  * @package Vlaswinkel\Lua
  */
-class LuaToken {
+class Token {
     const TYPE_STRING = 1;
     const TYPE_NUMBER = 2;
     const TYPE_PUNCTUATION = 3;
@@ -30,7 +25,7 @@ class LuaToken {
     private $value;
 
     /**
-     * LuaToken constructor.
+     * Token constructor.
      *
      * @param int    $type
      * @param string $value
