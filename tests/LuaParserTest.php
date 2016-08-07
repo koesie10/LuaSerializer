@@ -185,4 +185,25 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
 
         $parser->parse();
     }
+
+    public function testComments() {
+        $parser = new Parser(new TokenStream(new InputStream('{
+        -- comment
+    foo = {
+        test = 123
+    }
+}')));
+
+        $parser->parse();
+    }
+
+    public function testInlineComments() {
+        $parser = new Parser(new TokenStream(new InputStream('{
+    foo = {
+        test = 123 -- comment
+    }
+}')));
+
+        $parser->parse();
+    }
 }

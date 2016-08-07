@@ -75,7 +75,7 @@ class TokenStream {
             return null;
         }
         $char = $this->input->peek();
-        if ($char == "--") {
+        if ($this->isComment()) {
             $this->skipComment();
             return $this->readNext();
         }
@@ -265,6 +265,13 @@ class TokenStream {
      */
     protected function isDoubleBracketString() {
         return $this->input->peek() == '[' && !$this->input->eof(1) && $this->input->peek(1) == '[';
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isComment() {
+        return $this->input->peek() == '-' && !$this->input->eof(1) && $this->input->peek(1) == '-';
     }
 
     /**

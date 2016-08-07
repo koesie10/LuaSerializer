@@ -81,4 +81,21 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals([], $result);
     }
+
+    public function testSimpleTableWithComments() {
+        $parser = new Parser(new TokenStream(new InputStream('{ 
+        foo = "bar" -- comment
+        }')));
+
+        $node = $parser->parse();
+
+        $result = LuaToPhpConverter::convertToPhpValue($node);
+
+        $this->assertEquals(
+            [
+                'foo' => 'bar',
+            ],
+            $result
+        );
+    }
 }
