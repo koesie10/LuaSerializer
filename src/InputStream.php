@@ -49,12 +49,12 @@ class InputStream {
         return $char;
     }
 
-    public function peek() {
-        return $this->input[$this->position];
+    public function peek($pos = 0) {
+        return $this->input[$this->position + $pos];
     }
 
-    public function eof() {
-        return $this->position >= strlen($this->input);
+    public function eof($pos = 0) {
+        return $this->position + $pos >= strlen($this->input);
     }
 
     public function error($msg) {

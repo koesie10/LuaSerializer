@@ -85,6 +85,9 @@ class TokenStream {
         if ($char == '\'') {
             return $this->readSingleQuotedString();
         }
+        if ($this->isDoubleBracketString()) {
+            return $this->readDoubleBracketString();
+        }
         if ($this->isDigit($char)) {
             return $this->readNumber();
         }
@@ -118,6 +121,36 @@ class TokenStream {
      */
     protected function readSingleQuotedString() {
         return new Token(Token::TYPE_STRING, $this->readEscaped('\''));
+    }
+
+    /**
+     * @return Token
+     */
+    protected function readDoubleBracketString() {
+        // we cannot use readEscaped because it only supports a single char as $end
+        $escaped = false;
+        $str     = "";
+        // skip both
+        $this->input->next();
+        $this->input->next();
+        while (!$this->input->eof()) {
+            $char = $this->input->next();
+            if ($escaped) {
+                $str .= $char;
+                $escaped = false;
+            } else {
+                if ($char == "\\") {
+                    $escaped = true;
+                } else {
+                    if ($char == ']' && $this->input->peek() == ']') { // we reached the end
+                        break;
+                    } else {
+                        $str .= $char;
+                    }
+                }
+            }
+        }
+        return new Token(Token::TYPE_STRING, $str);
     }
 
     /**
@@ -209,6 +242,11 @@ class TokenStream {
         return $str;
     }
 
+    /**
+     * @param string $char
+     *
+     * @return bool
+     */
     protected function isWhitespace($char) {
         return strpos(" \t\n\r", $char) !== false;
     }
@@ -220,6 +258,13 @@ class TokenStream {
      */
     protected function isDigit($char) {
         return is_numeric($char);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDoubleBracketString() {
+        return $this->input->peek() == '[' && !$this->input->eof(1) && $this->input->peek(1) == '[';
     }
 
     /**

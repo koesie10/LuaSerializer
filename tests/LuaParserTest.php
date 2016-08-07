@@ -27,6 +27,37 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals("foo", $node->getValue());
     }
 
+    public function testStringWithSpaces() {
+        $parser = new Parser(new TokenStream(new InputStream('"foo bar."')));
+
+        $node = $parser->parse();
+
+        $this->assertEquals(StringASTNode::NAME, $node->getName());
+        $this->assertInstanceOf(StringASTNode::class, $node);
+        $this->assertEquals("foo bar.", $node->getValue());
+    }
+
+    public function testAlternateString() {
+        $parser = new Parser(new TokenStream(new InputStream('[[foo]]')));
+
+        $node = $parser->parse();
+
+        $this->assertEquals(StringASTNode::NAME, $node->getName());
+        $this->assertInstanceOf(StringASTNode::class, $node);
+        $this->assertEquals("foo", $node->getValue());
+    }
+
+    // https://github.com/koesie10/LuaSerializer/issues/1
+    public function testAlternateStringWithSpaces() {
+        $parser = new Parser(new TokenStream(new InputStream('[[foo bar.]]')));
+
+        $node = $parser->parse();
+
+        $this->assertEquals(StringASTNode::NAME, $node->getName());
+        $this->assertInstanceOf(StringASTNode::class, $node);
+        $this->assertEquals("foo bar.", $node->getValue());
+    }
+
     public function testNumber() {
         $parser = new Parser(new TokenStream(new InputStream('1337')));
 
