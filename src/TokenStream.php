@@ -143,6 +143,7 @@ class TokenStream {
                     $escaped = true;
                 } else {
                     if ($char == ']' && $this->input->peek() == ']') { // we reached the end
+                        $this->input->next();
                         break;
                     } else {
                         $str .= $char;

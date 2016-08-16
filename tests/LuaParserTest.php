@@ -177,6 +177,35 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals("bar", $nestedNestedEntry2->getValue()->getValue());
     }
 
+    public function testTableWithNestedAlternateStrings() {
+        $parser = new Parser(
+            new TokenStream(
+                new InputStream(
+                    '{
+            foo = [[bar]]
+        }'
+                )
+            )
+        );
+
+        $node = $parser->parse();
+
+        $this->assertEquals(TableASTNode::NAME, $node->getName());
+        $this->assertInstanceOf(TableASTNode::class, $node);
+
+        $this->assertCount(1, $node->getEntries());
+        $entry = $node->getEntries()[0];
+
+        $this->assertTrue($entry->hasKey());
+        $this->assertEquals(StringASTNode::NAME, $entry->getKey()->getName());
+        $this->assertInstanceOf(StringASTNode::class, $entry->getKey());
+        $this->assertEquals("foo", $entry->getKey()->getValue());
+
+        $this->assertEquals(StringASTNode::NAME, $entry->getValue()->getName());
+        $this->assertInstanceOf(StringASTNode::class, $entry->getValue());
+        $this->assertEquals("bar", $entry->getValue()->getValue());
+    }
+
     /**
      * @expectedException \Vlaswinkel\Lua\ParseException
      */
@@ -203,6 +232,12 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
         test = 123 -- comment
     }
 }')));
+
+        $parser->parse();
+    }
+
+    public function testAdvancedTable() {
+        $parser = new Parser(new TokenStream(new InputStream(file_get_contents(__DIR__ . '/advanced-test.lua'))));
 
         $parser->parse();
     }
