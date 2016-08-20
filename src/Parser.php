@@ -38,6 +38,28 @@ class Parser {
      * @throws ParseException
      */
     public function parse() {
+        $result = $this->parseInternal();
+
+        if (!$this->input->eof()) {
+            if ($result instanceof StringASTNode && $this->isPunctuation('=')) {
+                $this->skipPunctuation('=');
+                $value = $this->parseInternal();
+
+                return new TableASTNode([new TableEntryASTNode($value, $result)]);
+            }
+            
+            $this->input->error('Parser has finished parsing, but end of file was not reached. Next character is ' . $this->input->peek()->getValue());
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return ASTNode
+     *
+     * @throws ParseException
+     */
+    protected function parseInternal() {
         if ($this->isPunctuation('{')) {
             return $this->parseTable();
         }
@@ -79,10 +101,10 @@ class Parser {
      * @return TableEntryASTNode
      */
     protected function parseTableEntry() {
-        $token = $this->parse();
+        $token = $this->parseInternal();
         if ($this->isPunctuation('=')) {
             $this->skipPunctuation('=');
-            $value = $this->parse();
+            $value = $this->parseInternal();
             return new TableEntryASTNode(
                 $value,
                 $token
@@ -96,7 +118,7 @@ class Parser {
      */
     protected function parseTableKey() {
         $this->skipPunctuation('[');
-        $token = $this->parse();
+        $token = $this->parseInternal();
         $this->skipPunctuation(']');
         return $token;
     }

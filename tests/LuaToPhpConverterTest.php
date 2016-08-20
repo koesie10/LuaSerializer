@@ -98,4 +98,17 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
             $result
         );
     }
+
+    public function testAdvancedTable() {
+        $parser = new Parser(new TokenStream(new InputStream(file_get_contents(__DIR__ . '/advanced-test.lua'))));
+
+        $node = $parser->parse();
+
+        $result = LuaToPhpConverter::convertToPhpValue($node);
+
+        $this->assertEquals(
+            1,
+            count($result)
+        );
+    }
 }
