@@ -215,6 +215,16 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
         $parser->parse();
     }
 
+    /**
+     * @expectedException \Vlaswinkel\Lua\ParseException
+     */
+    public function testInvalidKeyword() {
+        $parser  = new Parser(new TokenStream(new InputStream('function')));
+
+        $node = $parser->parse();
+        $this->assertEquals('test', $node->getName());
+    }
+
     public function testComments() {
         $parser = new Parser(new TokenStream(new InputStream('{
         -- comment

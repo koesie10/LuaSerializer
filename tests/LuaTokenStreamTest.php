@@ -39,6 +39,14 @@ class LuaTokenStreamTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(' Like this ', $token->getValue());
     }
 
+    public function testEscapedString() {
+        $obj = new TokenStream(new InputStream('" test \n\r\t\v\\\\\""'));
+
+        $token = $obj->next();
+        $this->assertEquals(Token::TYPE_STRING, $token->getType());
+        $this->assertEquals(" test \n\r\t\v\\\"", $token->getValue());
+    }
+
     public function testOtherNestedString() {
         $obj = new TokenStream(new InputStream('[=[one [[two]] one]=]'));
 
@@ -122,6 +130,24 @@ class LuaTokenStreamTest extends \PHPUnit_Framework_TestCase {
      */
     public function testUnclosedNestedString() {
         $obj = new TokenStream(new InputStream("[=[ test ]]"));
+
+        $obj->next();
+    }
+
+    /**
+     * @expectedException \Vlaswinkel\Lua\ParseException
+     */
+    public function testInvalidDoubleBracketOpenString() {
+        $obj = new TokenStream(new InputStream('[=== test ]===]'));
+
+        $obj->next();
+    }
+
+    /**
+     * @expectedException \Vlaswinkel\Lua\ParseException
+     */
+    public function testInvalidDoubleBracketCloseString() {
+        $obj = new TokenStream(new InputStream('[==[ test ]== '));
 
         $obj->next();
     }
