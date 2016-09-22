@@ -50,6 +50,9 @@ class InputStream {
     }
 
     public function peek($pos = 0) {
+        if ($this->eof($pos)) {
+            $this->error('Unexpected end of input');
+        }
         return $this->input[$this->position + $pos];
     }
 

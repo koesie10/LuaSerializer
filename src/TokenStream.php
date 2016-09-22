@@ -128,10 +128,18 @@ class TokenStream {
      */
     protected function readDoubleBracketString() {
         // we cannot use readEscaped because it only supports a single char as $end
-        $escaped = false;
-        $str     = "";
+        $escaped                  = false;
+        $str                      = "";
+        $startNumberOfEqualsSigns = 0;
         // skip both
         $this->input->next();
+        while ($this->input->peek() == '=') {
+            $startNumberOfEqualsSigns++;
+            $this->input->next();
+        }
+        if ($this->input->peek() != '[') {
+            $this->error('Unexpected character ' . $this->input->peek() . ', expected [');
+        }
         $this->input->next();
         while (!$this->input->eof()) {
             $char = $this->input->next();
@@ -142,9 +150,34 @@ class TokenStream {
                 if ($char == "\\") {
                     $escaped = true;
                 } else {
-                    if ($char == ']' && $this->input->peek() == ']') { // we reached the end
-                        $this->input->next();
-                        break;
+                    if ($char == ']') { // we might have reached the end
+                        if ($startNumberOfEqualsSigns != 0) {
+                            if ($this->input->peek() == '=') {
+                                $endNumberOfEqualsSigns = 0;
+                                while ($this->input->peek() == '=') {
+                                    $endNumberOfEqualsSigns++;
+                                    $this->input->next();
+                                }
+
+                                // we have an equal number of equal signs
+                                if ($endNumberOfEqualsSigns == $startNumberOfEqualsSigns) {
+                                    if ($this->input->peek() != ']') {
+                                        $this->error('Unexpected character ' . $this->input->peek() . ', expected [');
+                                    }
+                                    $this->input->next();
+                                    break;
+                                } else {
+                                    $str .= $char . str_repeat('=', $endNumberOfEqualsSigns);
+                                }
+                            } else {
+                                $str .= $char;
+                            }
+                        } else {
+                            if ($this->input->peek() == ']') {
+                                $this->input->next();
+                                break;
+                            }
+                        }
                     } else {
                         $str .= $char;
                     }
@@ -265,7 +298,7 @@ class TokenStream {
      * @return bool
      */
     protected function isDoubleBracketString() {
-        return $this->input->peek() == '[' && !$this->input->eof(1) && $this->input->peek(1) == '[';
+        return $this->input->peek() == '[' && !$this->input->eof(1) && ($this->input->peek(1) == '[' || $this->input->peek(1) == '=');
     }
 
     /**
