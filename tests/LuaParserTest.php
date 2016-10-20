@@ -251,4 +251,13 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
 
         $parser->parse();
     }
+
+    public function testTableWithTrailingSemiColon() {
+        $parser = new Parser(new TokenStream(new InputStream('{
+    A = "B",
+    C = [=[ D ]=]
+}; --here')));
+
+        $parser->parse();
+    }
 }

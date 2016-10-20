@@ -97,6 +97,10 @@ class TokenStream {
         if ($this->isPunctuation($char)) {
             return $this->readPunctuation();
         }
+        if ($char == ';') {
+            $this->input->next(); // skip the semi-colon
+            return $this->readNext(); // just move on to the next
+        }
         $this->input->error('Cannot handle character: ' . $char . ' (ord: ' . ord($char) . ')');
     }
 
@@ -106,7 +110,9 @@ class TokenStream {
                 return $char != "\n";
             }
         );
-        $this->input->next();
+        if (!$this->input->eof()) {
+            $this->input->next();
+        }
     }
 
     /**
