@@ -91,6 +91,9 @@ class TokenStream {
         if ($this->isDigit($char)) {
             return $this->readNumber();
         }
+        if ($char === '-') {
+            return $this->readNumber();
+        }
         if ($this->isStartIdentifierCharacter($char)) {
             return $this->readIdentifier();
         }
@@ -233,6 +236,23 @@ class TokenStream {
      * @return Token
      */
     protected function readNumber() {
+        $isNegative = false;
+
+        if ($this->input->peek() === '-') {
+            $isNegative = true;
+            $this->input->next();
+        }
+
+        $number = $this->readNumberValue();
+
+        if ($isNegative) {
+            $number *= -1;
+        }
+
+        return new Token(Token::TYPE_NUMBER, $number);
+    }
+
+    private function readNumberValue() {
         $hasDot = false;
         $number = $this->readWhile(
             function ($char) use (&$hasDot) {
@@ -246,7 +266,8 @@ class TokenStream {
                 return $this->isDigit($char);
             }
         );
-        return new Token(Token::TYPE_NUMBER, $hasDot ? floatval($number) : intval($number));
+
+        return $hasDot ? floatval($number) : intval($number);
     }
 
     /**

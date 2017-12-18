@@ -87,6 +87,14 @@ class LuaTokenStreamTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(13.37, $token->getValue());
     }
 
+    public function testNumberNegative() {
+        $obj = new TokenStream(new InputStream("-13.37"));
+
+        $token = $obj->next();
+        $this->assertEquals(Token::TYPE_NUMBER, $token->getType());
+        $this->assertEquals(-13.37, $token->getValue());
+    }
+
     public function testPunctuation() {
         foreach ([',', '{', '}', '=', '[', ']'] as $punc) {
             $obj = new TokenStream(new InputStream($punc));

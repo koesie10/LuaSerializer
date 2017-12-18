@@ -111,4 +111,18 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
             count($result)
         );
     }
+
+    // https://github.com/koesie10/LuaSerializer/issues/6
+    public function testNegativeNumberTable() {
+        $parser = new Parser(new TokenStream(new InputStream('{1.75,0.6,-1.78}')));
+
+        $node = $parser->parse();
+
+        $result = LuaToPhpConverter::convertToPhpValue($node);
+
+        $this->assertEquals(
+            [1.75, 0.6, -1.78,],
+            $result
+        );
+    }
 }
