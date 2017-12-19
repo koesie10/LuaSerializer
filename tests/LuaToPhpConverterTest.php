@@ -125,4 +125,18 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
             $result
         );
     }
+
+    // https://github.com/koesie10/LuaSerializer/issues/7
+    public function testHexNumberTable() {
+        $parser = new Parser(new TokenStream(new InputStream('{0x0ef15a66,0xf10e0e66,0x3e4c5266}')));
+
+        $node = $parser->parse();
+
+        $result = LuaToPhpConverter::convertToPhpValue($node);
+
+        $this->assertEquals(
+            [0x0ef15a66, 0xf10e0e66, 0x3e4c5266],
+            $result
+        );
+    }
 }

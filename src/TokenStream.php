@@ -243,6 +243,19 @@ class TokenStream {
             $this->input->next();
         }
 
+        if ($this->input->peek() === '0') {
+            // there is no octal support according to to https://www.lua.org/manual/5.3/manual.html#3.1,
+            // so we can just skip a 0
+            $this->input->next();
+            if ($this->input->peek() === 'x') {
+                $this->input->next();
+
+                $number = $this->readHexValue();
+
+                return new Token(Token::TYPE_NUMBER, $number);
+            }
+        }
+
         $number = $this->readNumberValue();
 
         if ($isNegative) {
@@ -256,7 +269,7 @@ class TokenStream {
         $hasDot = false;
         $number = $this->readWhile(
             function ($char) use (&$hasDot) {
-                if ($char == '.') {
+                if ($char === '.') {
                     if ($hasDot) {
                         return false;
                     }
@@ -268,6 +281,12 @@ class TokenStream {
         );
 
         return $hasDot ? floatval($number) : intval($number);
+    }
+
+    private function readHexValue() {
+        $number = $this->readWhile([$this, 'isHexDigit']);
+
+        return hexdec($number);
     }
 
     /**
@@ -326,6 +345,15 @@ class TokenStream {
      */
     protected function isDigit($char) {
         return is_numeric($char);
+    }
+
+    /**
+     * @param string $char
+     *
+     * @return bool
+     */
+    protected function isHexDigit($char) {
+        return $this->isDigit($char) || preg_match('/[a-fA-F]/', $char) === 1;
     }
 
     /**

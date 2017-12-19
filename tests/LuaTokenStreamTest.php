@@ -93,6 +93,18 @@ class LuaTokenStreamTest extends \PHPUnit_Framework_TestCase {
         $token = $obj->next();
         $this->assertEquals(Token::TYPE_NUMBER, $token->getType());
         $this->assertEquals(-13.37, $token->getValue());
+
+        $this->assertNull($obj->next());
+    }
+
+    public function testNumberHex() {
+        $obj = new TokenStream(new InputStream('0x0ef15a66'));
+
+        $token = $obj->next();
+        $this->assertEquals(Token::TYPE_NUMBER, $token->getType());
+        $this->assertEquals(0x0ef15a66, $token->getValue());
+
+        $this->assertNull($obj->next());
     }
 
     public function testPunctuation() {
