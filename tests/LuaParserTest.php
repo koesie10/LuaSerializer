@@ -2,6 +2,7 @@
 
 namespace Vlaswinkel\Lua\Tests;
 
+use Vlaswinkel\Lua\AST\BoolASTNode;
 use Vlaswinkel\Lua\AST\NilASTNode;
 use Vlaswinkel\Lua\AST\NumberASTNode;
 use Vlaswinkel\Lua\AST\StringASTNode;
@@ -75,6 +76,26 @@ class LuaParserTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(NilASTNode::NAME, $node->getName());
         $this->assertInstanceOf(NilASTNode::class, $node);
+    }
+
+    public function testBoolTrue() {
+        $parser = new Parser(new TokenStream(new InputStream('true')));
+
+        $node = $parser->parse();
+
+        $this->assertEquals(BoolASTNode::NAME, $node->getName());
+        $this->assertInstanceOf(BoolASTNode::class, $node);
+        $this->assertEquals(true, $node->getValue());
+    }
+
+    public function testBoolFalse() {
+        $parser = new Parser(new TokenStream(new InputStream('false')));
+
+        $node = $parser->parse();
+
+        $this->assertEquals(BoolASTNode::NAME, $node->getName());
+        $this->assertInstanceOf(BoolASTNode::class, $node);
+        $this->assertEquals(false, $node->getValue());
     }
 
     public function testTableKey() {

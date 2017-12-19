@@ -139,4 +139,21 @@ class LuaToPhpConverterTest extends \PHPUnit_Framework_TestCase {
             $result
         );
     }
+
+    // https://github.com/koesie10/LuaSerializer/issues/8
+    public function testBooleanTable() {
+        $parser = new Parser(new TokenStream(new InputStream('{boolTrue = true, boolFalse = false}')));
+
+        $node = $parser->parse();
+
+        $result = LuaToPhpConverter::convertToPhpValue($node);
+
+        $this->assertEquals(
+            [
+                'boolTrue'  => true,
+                'boolFalse' => false,
+            ],
+            $result
+        );
+    }
 }

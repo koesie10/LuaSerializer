@@ -3,6 +3,7 @@
 namespace Vlaswinkel\Lua;
 
 use Vlaswinkel\Lua\AST\ASTNode;
+use Vlaswinkel\Lua\AST\BoolASTNode;
 use Vlaswinkel\Lua\AST\NilASTNode;
 use Vlaswinkel\Lua\AST\NumberASTNode;
 use Vlaswinkel\Lua\AST\StringASTNode;
@@ -47,7 +48,7 @@ class Parser {
 
                 return new TableASTNode([new TableEntryASTNode($value, $result)]);
             }
-            
+
             $this->input->error('Parser has finished parsing, but end of file was not reached. Next character is ' . $this->input->peek()->getValue());
         }
 
@@ -74,11 +75,15 @@ class Parser {
             return new StringASTNode($token->getValue());
         }
         if ($token->getType() == Token::TYPE_KEYWORD) {
-            if ($token->getValue() === 'nil') {
-                return new NilASTNode();
-            } else {
-                $this->input->error('Unexpected keyword: ' . $token->getValue());
+            switch ($token->getValue()) {
+                case 'nil':
+                    return new NilASTNode();
+                case 'true':
+                    return new BoolASTNode(true);
+                case 'false':
+                    return new BoolASTNode(false);
             }
+            $this->input->error('Unexpected keyword: ' . $token->getValue());
         }
         $this->unexpected();
     }
@@ -124,9 +129,9 @@ class Parser {
     }
 
     /**
-     * @param string   $start
-     * @param string   $stop
-     * @param string   $separator
+     * @param string $start
+     * @param string $stop
+     * @param string $separator
      * @param callable $parser
      *
      * @return array
@@ -160,8 +165,7 @@ class Parser {
      */
     protected function isPunctuation($char = null) {
         $token = $this->input->peek();
-        return $token && $token->getType() == Token::TYPE_PUNCTUATION && ($char === null || $token->getValue(
-            ) == $char);
+        return $token && $token->getType() == Token::TYPE_PUNCTUATION && ($char === null || $token->getValue() == $char);
     }
 
     /**
