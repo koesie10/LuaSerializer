@@ -67,7 +67,7 @@ class Serializer {
                 $result = $result . $subIndent . $entry;
             }
         }
-        $result = $result . $indent . '}';
+        $result = rtrim($result, ",\n") . "\n" . $indent . '}';
         return $result;
     }
 
